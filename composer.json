@@ -1,0 +1,32 @@
+{
+  "name": "miniorange/oauth-laravel-free",
+  "description": "oauth Package for Laravel webapps.",
+  "license": "miniOrange",
+  "authors": [
+    {
+      "name": "miniOrange Security Software Pvt Ltd",
+      "email": "info@miniorange.com"
+    }
+  ],
+  "require": {
+    "php": "^5.1 || ^7.1 || ^8.0"
+  },
+  "autoload": {
+    "files": [
+      "src/connector.php"
+    ],
+    "classmap": [
+      "src/"
+    ],
+    "psr-4": {
+      "provider\\": "provider/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "provider\\oauthServiceProvider"
+      ]
+    }
+  }
+}
