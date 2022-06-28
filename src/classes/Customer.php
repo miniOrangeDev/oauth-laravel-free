@@ -20,7 +20,7 @@ class Customeroauth
 
         $fields = array(
             'companyName' => $_SERVER ['SERVER_NAME'],
-            'areaOfInterest' => 'Laravel oauth SP Package',
+            'areaOfInterest' => 'Laravel oauth client Package',
             'email' => $this->email,
             'password' => $password
         );
@@ -71,8 +71,8 @@ class Customeroauth
 
         $content = '<div >Hello, <br><br><b>Company :</b><a href="' . $_SERVER['SERVER_NAME'] . '" target="_blank" >' . $_SERVER['SERVER_NAME'] . '</a><br><br><b>Phone Number :</b>' . $phone . '<br><br><b>Email :<a href="mailto:' . $fromEmail . '" target="_blank">' . $fromEmail . '</a></b><br><br><b>Query: ' . $query . '</b></div>';
 
-        $test_email_id = 'devasya@miniorange.com';
-        $support_email_id = 'info@miniorange.com';
+        $test_email_id = 'laravelsupport@xecurify.com';
+        $support_email_id = 'laravelsupport@xecurify.com';
 
         $fields = array(
             'customerKey' => $customerKey,

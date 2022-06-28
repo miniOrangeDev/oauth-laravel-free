@@ -1,8 +1,11 @@
 <?php
 use MiniOrange\Helper\CustomerDetails as CD; 
+use MiniOrange\Helper\DB;
+
 echo View::make('mooauth::menuView');
 $applistjs = $applist;
 $applist = json_decode($applist); 
+$app = DB::get_option('mo_oauth_provider_config');
 ?><main class="app-content">
     <div class="app-title">
         <div>
@@ -32,6 +35,7 @@ $applist = json_decode($applist);
                                 <input type="hidden" name="appId" id="appId">
                                 <input type="hidden" name="apptype" id="type">
                                 <input type="hidden" name="option" value="save_connector_settings">
+                                <input type="hidden" name="provider" value="provider">
                                 <input type="hidden" name="discovery" value="">
                                 @csrf
                                 <table id="moOAuthTable" class="table">
@@ -62,6 +66,7 @@ $applist = json_decode($applist);
 </main>
 <script>
     jQuery('select[name="providers"]').change(function(){
+        console.log("provider changed");
         jQuery('tr.discovery').hide();
         jQuery('tr.endpoints').hide();
         jQuery("input[name=scope]").val("");
@@ -75,6 +80,7 @@ $applist = json_decode($applist);
         }
         console.log(selected_app);
         jQuery('input[name=displayappname]').val(app);
+        jQuery('input[name=provider]').val(app);
         jQuery('input[name=apptype]').val(selected_app["type"]); 
         jQuery('input[name=discovery]').val(selected_app["discovery"]); 
         if(undefined != selected_app["input"]){
@@ -99,6 +105,27 @@ $applist = json_decode($applist);
             jQuery("input[name=scope]").val(selected_app["scope"]);
         }
 });
+    app = '<?php echo $app; ?>'
+    if('' !== app){
+        try{
+            app = jQuery.parseJSON(app)
+            console.log(app)
+            for (i in app){
+               jQuery('input[name='+i+']').val(app[i]);       
+            }
+            if(undefined !== app['send_headers'] && 'true' === app['send_headers'])
+                jQuery('#send_headers').prop('checked', true);
+            if(undefined !== app['send_state'] && 'true' === app['send_state'])
+                jQuery('#send_state').prop('checked', true);
+            if(undefined !== app['send_body'] && 'true' === app['send_body'])
+                jQuery('#send_body').prop('checked', true);
+            if(undefined !== app['provider']){
+                jQuery("#providers").val(app['provider']).trigger("change");
+            }
+         }catch(error){
+            console.log(error);
+         }
+    }
 </script>
 </body>
 </html>

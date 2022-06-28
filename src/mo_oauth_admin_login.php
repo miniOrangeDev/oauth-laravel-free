@@ -13,13 +13,8 @@ if (!is_user_registered()) {
 
 if (isset($_SESSION['authorized']) && !empty($_SESSION['authorized'])) {
     if ($_SESSION['authorized'] == true) {
-        if (mo_oauth_is_customer_license_verified()) {
             header("Location: mo_oauth_setup.php");
             exit();
-        } elseif (isset($_REQUEST['option'])) {
-            header("Location: mo_oauth_account.php");
-            exit();
-        }
     }
 }
 if (isset($_REQUEST['option']) && $_REQUEST['option'] == 'admin_login') {
@@ -56,13 +51,8 @@ if (isset($_REQUEST['option']) && $_REQUEST['option'] == 'admin_login') {
                 $_SESSION['authorized'] = true;
             }
             $_SESSION['admin_email'] = $email;
-            if (mo_oauth_is_customer_license_verified()) {
-                header("Location: mo_oauth_setup.php");
-                exit();
-            } else {
-                header("Location: mo_oauth_account.php");
-                exit();
-            }
+            header("Location: mo_oauth_setup.php");
+            exit();
         } else {
             $_SESSION['invalid_credentials'] = true;
         }

@@ -19,7 +19,8 @@ class CreateMiniorangeTables extends Migration
                 $table->id()->unique()->startingValue(1);
                 $table->text('mo_oauth_domain_name', 100)->nullable();
                 $table->text('mo_oauth_host_name', 100)->nullable();
-                $table->text('mo_oauth_provider', 100)->nullable();
+                $table->text('mo_oauth_provider_config', 100)->nullable();
+                $table->text('mo_oauth_message', 100)->nullable();
             });
         }
         
