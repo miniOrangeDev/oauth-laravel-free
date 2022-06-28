@@ -211,7 +211,6 @@ class MoSSOController extends Controller {
                                 }
                                 $resourceOwner = $mo_oauth_handler->getResourceOwner($resourceownerdetailsurl, $accessToken);
                             }
-                            dd($resourceOwner);
                             if(!empty($username_attr))
                                 $username = $this->mo_oauth_client_getnestedattribute($resourceOwner, $username_attr); //$resourceOwner[$email_attr];
 

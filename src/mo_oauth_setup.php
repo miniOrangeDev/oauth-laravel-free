@@ -47,9 +47,9 @@ if (isset($_POST['option']) && $_POST['option'] == 'save_connector_settings') {
                     foreach ($scope as $key => $value) {
                         array_push($scope_list,  array('name' => $value,'value'=> $value ));
                     }
-                    $_POST['mo_oauth_scopes_list'] = json_encode($scope_list);  
+                    $_POST['mo_oauth_scopes_list'] = $scope_list;  
                     $scope = mo_oauth_get_scopes($scope);
-                    $_POST['mo_oauth_scopes'] = json_encode($scope);
+                    $_POST['mo_oauth_scopes'] = $scope;
 
                     $_POST['authorizeurl'] = isset($provider_se->authorization_endpoint) ? stripslashes($provider_se->authorization_endpoint) : "";
                     $_POST['accesstokenurl'] = isset($provider_se->token_endpoint) ? stripslashes($provider_se->token_endpoint ) : "";
