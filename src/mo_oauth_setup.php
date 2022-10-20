@@ -1,13 +1,14 @@
 <?php
 
 use MiniOrange\Helper\DB;
+use MiniOrange\Helper\CustomerDetails as CD;
 
 if (!isset($_SESSION)) {
     session_start();
 }
-
 if (isset($_SESSION['authorized']) && !empty($_SESSION['authorized'])) {
     if ($_SESSION['authorized'] != true) {
+      
         header('Location: mo_oauth_admin_login.php');
         exit();
     }
@@ -15,6 +16,40 @@ if (isset($_SESSION['authorized']) && !empty($_SESSION['authorized'])) {
 else {
     header('Location: mo_oauth_admin_login.php');
     exit();
+}
+if(isset($_REQUEST['option']) and $_REQUEST['option'] == 'testattrmappingconfig'){
+    var_dump($_REQUEST);exit;
+    // exit;
+    $mo_oauth_app_name = sanitize_text_field($_REQUEST['app']);
+    // header("Location: https://www.google.com/");
+    // wp_redirect(CD::oauth_get_current_domain().'?option=oauthredirect&app_name='. urlencode($mo_oauth_app_name)."&test=true");
+ 
+}
+if(isset($_POST['option']) and $_POST['option'] == 'test_config'){
+    // exit;
+    var_dump($_POST);exit;
+    // $mo_oauth_app_name = $_POST['displayappname'];
+    // header("Location: https://www.google.com/");
+    // wp_redirect(CD::oauth_get_current_domain().'?option=oauthredirect&app_name='. urlencode($mo_oauth_app_name)."&test=true");
+    // exit();
+}
+
+if(isset($_POST['option']) && $_POST['option'] == 'reset_config'){
+    DB::update_option('client_id', NULL);
+    DB::update_option('client_secret', NULL);
+    DB::update_option('scope', NULL);
+    DB::update_option('authorize_url', NULL);
+    DB::update_option('access_token_url', NULL);
+    DB::update_option('resource_owner_details_url', NULL);
+    DB::update_option('domain', NULL);
+    DB::update_option('realm', NULL);
+    DB::update_option('tenant', NULL);
+    DB::update_option('policy', NULL);
+    DB::update_option('send_header', NULL);
+    DB::update_option('send_body', NULL);
+    DB::update_option('send_state', NULL);
+    DB::update_option('login_attribute', NULL);
+    DB::update_option('mo_oauth_message', "Settings reset successfully!");
 }
 
 if (isset($_POST['option']) && $_POST['option'] == 'save_connector_settings') {
@@ -58,8 +93,36 @@ if (isset($_POST['option']) && $_POST['option'] == 'save_connector_settings') {
             }
         }
     }
+    if(isset($_POST['send_headers'])){
+        DB::update_option('send_header', "true");
+    } else{
+        DB::update_option('send_header', "false");
+    }
+    if(isset($_POST['send_body'])){
+        DB::update_option('send_body', "true");
+    } else{
+        DB::update_option('send_body', "false");
+    }
+    if(isset($_POST['send_state'])){
+        DB::update_option('send_state', "true");
+    } else{
+        DB::update_option('send_state', "false");
+    }
     DB::update_option('mo_oauth_provider_config',json_encode($_POST));
     DB::update_option('mo_oauth_message', 'Settings saved successfully!!');
+    DB::update_option('oauth_provider_name', $_POST['displayappname']);
+    DB::update_option('redirect_uri', CD::oauth_get_current_domain().'/ssologin.php');
+    DB::update_option('client_id', $_POST['clientid']);
+    DB::update_option('client_secret', $_POST['clientsecret']);
+    DB::update_option('scope', $_POST['scope']);
+    DB::update_option('authorize_url', $_POST['authorizeurl']);
+    DB::update_option('access_token_url', $_POST['accesstokenurl']);
+    DB::update_option('resource_owner_details_url', $_POST['resourceownerdetailsurl']);
+    DB::update_option('domain', $_POST['domain']);
+    DB::update_option('realm', $_POST['realm']);
+    DB::update_option('tenant', $_POST['tenant']);
+    DB::update_option('policy', $_POST['policy']);
+    DB::update_option('login_attribute', $_POST['username_attr']);
 }
 
     function mo_oauth_get_scopes($scopes){

@@ -37,27 +37,29 @@ function recurse_copy($src, $dst)
 
 function mo_register_action()
 {
-
     $email = $_POST['email'];
     $password = stripslashes($_POST['password']);
-    $confirmPassword = stripslashes($_POST['confirmPassword']);
+    $confirm_password = stripslashes($_POST['confirm_password']);
+    $use_case = $_POST['use_case'];
 
-    DB::update_option('mo_oauth_admin_email', $email);
-    if (strcmp($password, $confirmPassword) == 0) {
-        DB::update_option('mo_oauth_admin_password', $password);
+    CD::update_option('mo_oauth_admin_email', $email);
+    CD::update_option('mo_oauth_use_case', $use_case);
+    if (strcmp($password, $confirm_password) == 0) {
+        CD::update_option('mo_oauth_admin_password', $password);
         $customer = new Customeroauth();
         $content = json_decode($customer->check_customer(), true);
-        if (strcasecmp($content['status'], 'CUSTOMER_NOT_FOUND') == 0) {
-
-            $response = create_customer();
+        $response = create_customer();
+        if (strcasecmp($response['status'], 'success') == 0) {
+                $customer->submit_register_user($email, $use_case);
+                CD::update_option('mo_oauth_message', 'Registration Successful');
+                mo_oauth_show_success_message();
         } else {
-            $response = get_current_customer();
+            CD::update_option('mo_oauth_admin_email', '');
+            CD::update_option('mo_oauth_use_case', '');
         }
-        DB::update_option('mo_oauth_message', 'Logged in as Guest.');
-        mo_oauth_show_success_message();
     } else {
         $response['status'] = "not_match";
-        DB::update_option('mo_oauth_message', 'Passwords do not match.');
+        CD::update_option('mo_oauth_message', 'Passwords do not match.');
         mo_oauth_show_error_message();
     }
 }
@@ -67,6 +69,7 @@ function create_customer()
     $customer = new Customeroauth();
     $customerKey = json_decode($customer->create_customer(), true);
     $response = array();
+
     if (strcasecmp($customerKey['status'], 'CUSTOMER_USERNAME_ALREADY_EXISTS') == 0) {
         $api_response = get_current_customer();
         if ($api_response) {
@@ -74,20 +77,23 @@ function create_customer()
         } else
             $response['status'] = "error";
     } else if (strcasecmp($customerKey['status'], 'SUCCESS') == 0) {
-        DB::update_option('mo_oauth_admin_customer_key', $customerKey['id']);
-        DB::update_option('mo_oauth_admin_api_key', $customerKey['apiKey']);
-        DB::update_option('mo_oauth_customer_token', $customerKey['token']);
-        DB::update_option('mo_oauth_free_version', 1);
-        DB::update_option('mo_oauth_admin_password', '');
-        DB::update_option('mo_oauth_message', 'Thank you for registering with miniorange.');
-        DB::update_option('mo_oauth_registration_status', '');
-        DB::delete_option('mo_oauth_verify_customer');
-        DB::delete_option('mo_oauth_new_registration');
+        CD::update_option('mo_oauth_admin_customer_key', $customerKey['id']);
+        CD::update_option('mo_oauth_admin_api_key', $customerKey['apiKey']);
+        CD::update_option('mo_oauth_customer_token', $customerKey['token']);
+        CD::update_option('mo_oauth_admin_password', '');
+        CD::update_option('mo_oauth_message', 'Thank you for registering with miniorange.');
+        CD::update_option('mo_oauth_registration_status', '');
+        CD::update_option('mo_oauth_use_case', '');
+        CD::delete_option('mo_oauth_verify_customer');
+        CD::delete_option('mo_oauth_new_registration');
         $response['status'] = "success";
         return $response;
+    } else{
+        CD::update_option('mo_oauth_message', $customerKey['status']);
+        $response['status'] = "error";
     }
 
-    DB::update_option('mo_oauth_admin_password', '');
+    CD::update_option('mo_oauth_admin_password', '');
     return $response;
 }
 
@@ -95,31 +101,68 @@ function get_current_customer()
 {
     $customer = new Customeroauth();
     $content = $customer->get_customer_key();
-
-    $customerKey = json_decode($content, true);
-
-    $response = array();
-    if (json_last_error() == JSON_ERROR_NONE) {
-        DB::update_option('mo_oauth_admin_customer_key', $customerKey['id']);
-        DB::update_option('mo_oauth_admin_api_key', $customerKey['apiKey']);
-        DB::update_option('mo_oauth_customer_token', $customerKey['token']);
-        DB::update_option('mo_oauth_admin_password', '');
-        $certificate = DB::get_option('oauth_x509_certificate');
-        if (empty($certificate)) {
-            DB::update_option('mo_oauth_free_version', 1);
-        }
-
-        DB::delete_option('mo_oauth_verify_customer');
-        DB::delete_option('mo_oauth_new_registration');
-        $response['status'] = "success";
-        return $response;
-    } else {
-
-        DB::update_option('mo_oauth_message', 'You already have an account with miniOrange. Please enter a valid password.');
-        mo_oauth_show_error_message();
+    
+    if(strcasecmp($content, 'Invalid username or password. Please try again.') == 0){
+        CD::update_option('mo_oauth_message', $content);
+        $_SESSION['show_error_msg'] = true;
         $response['status'] = "error";
-        return $response;
+    } else{
+        $customerKey = json_decode($content, true);
+        $response = array();
+        if (json_last_error() == JSON_ERROR_NONE) {
+            CD::update_option('mo_oauth_admin_customer_key', $customerKey['id']);
+            CD::update_option('mo_oauth_admin_api_key', $customerKey['apiKey']);
+            CD::update_option('mo_oauth_customer_token', $customerKey['token']);
+            CD::update_option('mo_oauth_admin_password', '');
+            CD::update_option('mo_oauth_use_case', '');
+            CD::delete_option('mo_oauth_verify_customer');
+            CD::delete_option('mo_oauth_new_registration');
+            $response['status'] = "success";
+            return $response;
+        } else {
+    
+            CD::update_option('mo_oauth_message', 'You already have an account with miniOrange. Please enter a valid password.');
+            mo_oauth_show_error_message();
+            $response['status'] = "error";
+            return $response;
+        }
     }
+}
+
+function mo_oauth_show_customer_details()
+{
+    ?>
+    <div class="mo_oauth_table_layout">
+        <h2>Thank you for registering with miniOrange.</h2>
+
+        <table id="customer_details_table" border="1" style="background-color: #FFFFFF; border: 1px solid #CCCCCC; border-collapse: collapse; padding: 0px 0px 0px 10px; margin: 2px; width: 85%">
+            <tr>
+                <td style="width: 45%; padding: 10px;">miniOrange Account Email</td>
+                <td style="width: 55%; padding: 10px;"><?php echo CD::get_option('mo_oauth_admin_email'); ?></td>
+            </tr>
+            <tr>
+                <td style="width: 45%; padding: 10px;">Customer ID</td>
+                <td style="width: 55%; padding: 10px;"><?php echo CD::get_option('mo_oauth_admin_customer_key') ?></td>
+            </tr>
+        </table>
+        <br/> <br/>
+        <form style="display: none;" id="loginform"
+              action="<?php echo DB::get_option('mo_oauth_host_name') . 'moas/login'; ?>"
+              target="_blank" method="post">
+            <input type="email" name="username"
+                   value="<?php echo CD::get_option('mo_oauth_admin_email'); ?>"/> <input
+                    type="text" name="redirectUrl"
+                    value="<?php echo DB::get_option('mo_oauth_host_name') . 'moas/initializepayment'; ?>"/>
+            <input type="text" name="requestOrigin" id="requestOrigin"/>
+        </form>
+        <script>
+            function upgradeform(planType) {
+                jQuery('#requestOrigin').val(planType);
+                    jQuery('#loginform').submit();
+            }
+        </script>
+    </div>
+    <?php
 }
 
 function mo_oauth_show_success_message()
@@ -150,223 +193,6 @@ function mo_oauth_check_empty_or_null($value)
     return false;
 }
 
-function mo_oauth_is_customer_registered()
-{
-    $email = CD::get_option('mo_oauth_admin_email');
-    $customerKey = CD::get_option('mo_oauth_admin_customer_key');
-    if (!$email || !$customerKey || !is_numeric(trim($customerKey))) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function mo_oauth_is_customer_license_verified()
-{
-    $status = CD::get_option('mo_oauth_registration_status');
-    if ($status != 'verified')
-        return false;
-    else
-        return true;
-}
-
-function mo_oauth_show_verify_password_page()
-{
-    ?>
-    <form name="f" method="post" action="">
-        <input type="hidden" name="option" value="mo_oauth_verify_customer">
-         <input type="hidden" name="_token" value="<?php echo csrf_token() ?>" />
-        <div class="mo_oauth_table_layout">
-            <div id="toggle1" class="panel_toggle">
-                <h3>Login with miniOrange</h3>
-            </div>
-            <div id="panel1">
-                <p>
-                    <b>Please enter your miniOrange email and password.<br/> <a
-                                target="_blank"
-                                href="https://login.xecurify.com/moas/idp/resetpassword">Click
-                            here if you forgot your password?</a></b>
-                </p>
-                <br/>
-                <div class="col-lg-8">
-                    <table class="mo_oauth_settings_table">
-                        <tr>
-                            <td><b><font color="#FF0000">*</font>Email:</b></td>
-                            <td><input class="form-control" type="email" name="email" required
-                                       placeholder="person@example.com"
-                                       value="<?php echo CD::get_option('mo_oauth_admin_email'); ?>"/></td>
-                        </tr>
-                        <tr>
-                            <td><b><font color="#FF0000">*</font>Password:</b></td>
-                            <td><input class="form-control" required type="password"
-                                       name="password" placeholder="Enter your password" minlength="6"
-                                       pattern="^[(\w)*(!@#$.%^&*-_)*]+$"
-                                       title="Minimum 6 characters should be present. Maximum 15 characters should be present. Only following symbols (!@#.$%^&*) should be present."/>
-                            </td>
-                        </tr>
-                            <td>&nbsp;</td>
-                            <td><input type="submit" name="submit" value="Login"
-                                       class="btn btn-primary"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <!-- <input type="button" name="mo_oauth_goback" id="mo_oauth_goback" value="Back"
-                             class="btn btn-primary"/> -->
-
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <!-- <form name="f" method="post" action="" id="mo_oauth_goback_form">
-                <input type="hidden" name="option" value="mo_oauth_go_back"/>
-            </form> -->
-    <form name="f" method="post" action="" id="mo_oauth_forgotpassword_form">
-        <input type="hidden" name="option"
-               value="mo_oauth_forgot_password_form_option"/>
-    </form>
-    <script>
-        // jQuery("#mo_oauth_goback").click(function () {
-        // jQuery("#mo_oauth_goback_form").submit();
-        // });
-        jQuery("a[href=\"#mo_oauth_forgot_password_link\"]").click(function () {
-            jQuery("#mo_oauth_forgotpassword_form").submit();
-        });
-    </script>
-    <?php
-}
-
-function mo_oauth_show_customer_details()
-{
-    ?>
-    <div class="mo_oauth_table_layout">
-        <h2>Thank you for registering with miniOrange.</h2>
-
-        <table border="1"
-               style="background-color: #FFFFFF; border: 1px solid #CCCCCC; border-collapse: collapse; padding: 0px 0px 0px 10px; margin: 2px; width: 85%">
-            <tr>
-                <td style="width: 45%; padding: 10px;">miniOrange Account Email</td>
-                <td style="width: 55%; padding: 10px;"><?php echo CD::get_option('mo_oauth_admin_email'); ?></td>
-            </tr>
-            <tr>
-                <td style="width: 45%; padding: 10px;">Customer ID</td>
-                <td style="width: 55%; padding: 10px;"><?php echo CD::get_option('mo_oauth_admin_customer_key') ?></td>
-            </tr>
-        </table>
-        <br/> <br/>
-
-        <table>
-            <tr>
-                <td>
-                    <form name="f1" method="post" action="" id="mo_oauth_goto_login_form"
-                          style="margin-block-end: auto;">
-                        <input type="hidden" value="change_miniorange" name="option"/> <input
-                                type="submit" value="Remove Account and Release License" class="btn btn-primary"/>
-                    </form>
-                </td>
-            </tr>
-        </table>
-
-        <br/>
-
-        <form style="display: none;" id="loginform"
-              action="<?php echo DB::get_option('mo_oauth_host_name') . '/moas/login'; ?>"
-              target="_blank" method="post">
-            <input type="email" name="username"
-                   value="<?php echo CD::get_option('mo_oauth_admin_email'); ?>"/> <input
-                    type="text" name="redirectUrl"
-                    value="<?php echo DB::get_option('mo_oauth_host_name') . '/moas/initializepayment'; ?>"/>
-            <input type="text" name="requestOrigin" id="requestOrigin"/>
-        </form>
-    </div>
-    <?php
-}
-
-function mo_oauth_show_verify_license_page()
-{
-    ?>
-    <div class="mo_oauth_table_layout"
-         style="padding-bottom: 50px;!important">
-
-        <h3>
-            Verify License [ <span style="font-size: 13px; font-style: normal;"><a
-                        style="cursor: pointer;" onclick="getlicensekeysform()">Click here to
-				view your license key</a></span> ]
-        </h3>
-        <hr>
-
-        <?php
-        echo '<form style="display:none;" id="loginform" action="' . DB::get_option('mo_oauth_host_name') . '/moas/login"
-                            target="_blank" method="post">
-                            <input type="email" name="username" value="' . CD::get_option('mo_oauth_admin_email') . '" />
-                            <input type="text" name="redirectUrl" value="' . DB::get_option('mo_oauth_host_name') . '/moas/viewlicensekeys" />
-                             <input type="hidden" name="_token" value="'. csrf_token().'" />
-                            <input type="text" name="requestOrigin" value="wp_oauth_sso_basic_plan"  />
-                        </form>';
-        ?>
-
-        <form name="f" method="post" action="">
-            <input type="hidden" name="option" value="mo_oauth_verify_license"/>
-             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" />
-            <div class="form-group">
-                <label for="oauth_license_key"><b><font color="#FF0000">*</font>Enter
-                        your license key to activate the connector:</b></label> <input
-                        class="form-control" required type="text"
-                        style="margin-left: 40px; width: 300px;" name="oauth_license_key"
-                        id="oauth_license_key"
-                        placeholder="Enter your license key to activate the connector"/>
-            </div>
-
-            <ol>
-                <li>License key you have entered here is associated with this site
-                    instance. In future, if you are re-installing the connector or your
-                    site for any reason, you should logout of your miniOrange account
-                    from the connector and then delete the connector. So that you can
-                    reuse the same license key.
-                </li>
-                <br>
-                <li><b>This is not a developer's license.</b> Making any kind of
-                    change to the connector's code will delete all your configuration
-                    and make the connector unusable.
-                </li>
-                <br>
-                <div class="animated-checkbox">
-                    <label> <input type="checkbox" name="license_conditions"
-                                   id="license_conditions" required> <span class="label-text"><strong>I
-							have read the above two conditions and I want to activate the
-							connector.</strong></span>
-                    </label>
-                </div>
-            </ol>
-            <input type="submit" name="submit" value="Activate License"
-                   class="btn btn-primary"/> <input type="button" name="mo_oauth_goback"
-                                                    id="mo_oauth_goback" value="Back" class="btn btn-primary"/>
-
-        </form>
-    </div>
-
-    <form name="f" method="post" action="" id="mo_oauth_free_trial_form">
-        <input type="hidden" name="option" value="mo_oauth_free_trial"/>
-    </form>
-    <form name="f" method="post" action="" id="mo_oauth_check_license">
-        <input type="hidden" name="option" value="mo_oauth_check_license"/>
-    </form>
-    <form name="f" method="post" action="" id="mo_oauth_goback_form">
-        <input type="hidden" name="option" value="mo_oauth_go_back"/>
-    </form>
-    <script>
-        jQuery("#mo_oauth_free_trial_link").click(function () {
-            jQuery("#mo_oauth_free_trial_form").submit();
-        });
-        jQuery("a[href=\"#checklicense\"]").click(function () {
-            jQuery("#mo_oauth_check_license").submit();
-        });
-        jQuery("#mo_oauth_goback").click(function () {
-            jQuery("#mo_oauth_goback_form").submit();
-        });
-    </script>
-    <?php
-}
-
 function mo_oauth_remove_account()
 {
     CD::delete_option('mo_oauth_admin_customer_key');
@@ -389,20 +215,6 @@ function mo_oauth_is_curl_installed()
         return 1;
     } else {
         return 0;
-    }
-}
-
-function mo_oauth_is_customer_registered_oauth($check_guest = true)
-{
-    $email = DB::get_option('mo_oauth_admin_email');
-    $customerKey = DB::get_option('mo_oauth_admin_customer_key');
-
-    if (mo_oauth_is_guest_enabled() && $check_guest)
-        return 1;
-    if (!$email || !$customerKey || !is_numeric(trim($customerKey))) {
-        return 0;
-    } else {
-        return 1;
     }
 }
 

@@ -20,7 +20,23 @@ class CreateMiniorangeTables extends Migration
                 $table->text('mo_oauth_domain_name', 100)->nullable();
                 $table->text('mo_oauth_host_name', 100)->nullable();
                 $table->text('mo_oauth_provider_config', 100)->nullable();
-                $table->text('mo_oauth_message', 100)->nullable();
+                $table->text('oauth_provider_name', 100)->nullable();
+                $table->text('redirect_uri', 100)->nullable();
+                $table->text('client_id', 100)->nullable();
+                $table->text('client_secret', 100)->nullable();
+                $table->text('scope', 100)->nullable();
+                $table->text('authorize_url', 300)->nullable();
+                $table->text('access_token_url', 300)->nullable();
+                $table->text('resource_owner_details_url', 300)->nullable();
+                $table->text('domain', 300)->nullable();
+                $table->text('realm', 300)->nullable();
+                $table->text('tenant', 300)->nullable();
+                $table->text('policy', 300)->nullable();
+                $table->text('send_header', 300)->nullable();
+                $table->text('send_body', 300)->nullable();
+                $table->text('send_state', 300)->nullable();
+                $table->text('login_attribute', 300)->nullable();
+                $table->text('mo_oauth_message', 300)->nullable();
             });
         }
         
@@ -38,13 +54,21 @@ class CreateMiniorangeTables extends Migration
                 $table->id()->unique()->startingValue(1);
                 $table->text('mo_oauth_domain_name', 100)->nullable();
                 $table->text('mo_oauth_admin_email', 100)->nullable();
+                $table->text('mo_oauth_admin_password', 255)->nullable();
                 $table->text('mo_oauth_admin_customer_key', 100)->nullable();
                 $table->text('mo_oauth_admin_api_key', 100)->nullable();
                 $table->text('mo_oauth_customer_token', 100)->nullable();
+                $table->text('mo_oauth_free_version', 255)->nullable();
                 $table->text('mo_oauth_registration_status', 100)->nullable();
                 $table->text('vl_check_t', 100)->nullable();
                 $table->text('sml_lk', 100)->nullable();
                 $table->text('mo_oauth_message', 100)->nullable();
+                $table->text('mo_oauth_use_case', 300)->nullable();
+                $table->text('mo_oauth_new_registration', 10)->nullable();
+                $table->text('mo_oauth_admin_phone', 20)->nullable();
+                $table->text('mo_oauth_verify_customer', 10)->nullable();
+                $table->text('mo_oauth_transactionId', 255)->nullable();
+                $table->text('mo_oauth_guest_enabled', 10)->nullable();
                 $table->text('site_ck_l', 100)->nullable();
                 $table->text('t_site_status', 100)->nullable();
             });

@@ -10,6 +10,12 @@
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Font Awesome Kit -->
+    <script src="https://kit.fontawesome.com/0533c22dcd.js" crossorigin="anonymous"></script>
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <title>Login - miniOrange Admin</title>
 </head>
 <body>
@@ -24,9 +30,10 @@
     </div>
     <div class="col-md-5">
         <div class="tile">
-            <h3 class="tile-title">Login</h3>
+            <h3 class="tile-title">Login with miniOrange</h3>
             <form class="login_form" method="POST" action="">
                 <input type="hidden" name="option" value="admin_login">
+                <br/>
                 <div class="tile-body">
                     <div class="form-group row">
                         <label class="control-label col-md-3">Email</label>
@@ -39,21 +46,46 @@
                         <label class="control-label col-md-3">Password</label>
                         <div class="col-md-8">
                             <input class="form-control col-md-10" type="password"
-                                   name="password" id="password" placeholder="Enter a password"
-                                   minlength="6" required>
-                             @csrf 
+                                   name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                   placeholder="Enter your password" minlength="8" 
+                                   title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
+                                   required>
+                            @csrf
                         </div>
                     </div>
+                    <div class="form-group row"  id="use_case_div">
+                        <label class="control-label col-md-3">Use case <span style="color: grey">(Optional)</span></label>
+                        <div class="col-md-8">
+                            <textarea class="form-control col-md-10" id="use_case" name="use_case" rows="4" cols="50" placeholder="Enter your use case here..."></textarea>
+                        </div>
+                    </div>
+                    <a target="_blank" href="https://login.xecurify.com/moas/idp/resetpassword"> Click here if you forgot your password?</a>
                 </div>
                 <div class="tile-footer">
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-3">
-                            <button class="btn btn-primary" type="submit">
+                        <div class="col-md-10 col-md-offset-3">
+                            <button class="btn btn-primary" id="login" type="submit"  style="margin-left: 38%;">
                                 <i class="fa fa-fw fa-lg fa-check-circle"></i>Login
+                            </button>
+                            <button type="button" name="mo_oauth_goback" id="goto_register" class="btn btn-primary">
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>Register
                             </button>
                         </div>
                     </div>
                 </div>
+                <script>
+                        document.getElementById("goto_register").onclick = function(){
+                            window.location.href = "mo_oauth_register.php";
+                        }
+                        <?php
+                            if(is_user_registered()){
+                                ?>
+                                document.getElementById("goto_register").style.visibility = 'hidden';
+                                document.getElementById("use_case_div").style.display = 'none';
+                                <?php
+                            }
+                        ?>
+                </script>
             </form>
         </div>
     </div>

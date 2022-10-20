@@ -184,22 +184,26 @@ class Mo_OAuth_Hanlder {
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
 		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-		curl_setopt( $ch, CURLOPT_MAXREDIRS, 5 );
-		curl_setopt( $ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt( $ch, CURLOPT_MAXREDIRS, 15 );
+		curl_setopt( $ch, CURLOPT_HTTPGET, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'charset: UTF - 8',
+			'Authorization: ' . $headers['Authorization']
+        ));
+		
 		// curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query($body));
 		$response = curl_exec($ch);
-
 		if(curl_error($ch)){
 			echo "<b>Response : </b><br>";print_r($response);echo "<br><br>";		
 			exit( curl_error($ch) );
 		}
-
+		
 		if(!is_array(json_decode($response, true))){
 			$response = addcslashes($response, '\\');
 			if(!is_array(json_decode($response, true))){
-			echo "<b>Response : </b><br>";print_r($response);echo "<br><br>";
-			exit("Invalid response received.");
+				echo "<b>Response : </b><br>";print_r($response);echo "<br><br>";
+				exit("Invalid response received.");
 			}
 		}
 		
@@ -209,7 +213,6 @@ class Mo_OAuth_Hanlder {
 		} else if(isset($content["error"])){
 			exit($content["error"]);
 		}
-
 		return $content;
 	}
 	

@@ -19,10 +19,6 @@ else {
     exit();
 }
 
-if (isset($_POST['option']) and $_POST['option'] == "mo_oauth_register_customer") {
-    mo_register_action();
-}
-
 if (isset($_POST['option']) and $_POST['option'] == "mo_oauth_goto_login") {
     CD::delete_option('mo_oauth_new_registration');
     CD::update_option('mo_oauth_verify_customer', 'true');

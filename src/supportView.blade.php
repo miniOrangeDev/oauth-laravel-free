@@ -4,15 +4,8 @@ use MiniOrange\Helper\CustomerDetails as CD;?>
 ?><main class="app-content">
     <div class="app-title">
         <div>
-            <h1>
-                <i class="fa fa-support"></i> Support/Contact Us
-            </h1>
-
+            <h1>Support/Contact Us</h1>
         </div>
-        <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-            <li class="breadcrumb-item"><a href="#">Support/Contact Us</a></li>
-        </ul>
     </div>
 
     <p id="oauth_message"></p>
@@ -21,7 +14,7 @@ use MiniOrange\Helper\CustomerDetails as CD;?>
         <div class="col-md-12">
             <div class="tile">
                 <div class="row">
-                    <div class="col-lg-10">
+                    <div class="col-lg-12">
                         <form method="post" action="">
                             <p>
                                 <b>Need any help? We can help you in configuring the connector
@@ -53,7 +46,7 @@ use MiniOrange\Helper\CustomerDetails as CD;?>
                     </div>
                 </div>
                 <div class="tile-footer">
-                    <button class="btn btn-primary" type="submit" name="submit">Submit</button>
+                    <button class="btn btn-primary" type="submit" name="submit" style="margin-left: 45%;">Submit</button>
                 </div>
                 </form>
             </div>

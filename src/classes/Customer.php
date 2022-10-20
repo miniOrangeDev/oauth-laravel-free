@@ -16,7 +16,8 @@ class Customeroauth
 
         $ch = curl_init($url);
         $this->email = CD::get_option('mo_oauth_admin_email');
-        $password = $_POST['password'];
+        $password = CD::get_option('mo_oauth_admin_password');
+        // $password = $_POST['password'];
 
         $fields = array(
             'companyName' => $_SERVER ['SERVER_NAME'],
@@ -53,6 +54,29 @@ class Customeroauth
 
     function submit_contact_us($email, $phone, $query)
     {
+        $fromEmail = $email;
+        $subject = "Laravel OAuth free Support Query - " . $email;
+
+        $content = '<div >Hello, <br><br><b>Company :</b><a href="' . $_SERVER['SERVER_NAME'] . '" target="_blank" >' . $_SERVER['SERVER_NAME'] . '</a><br><br><b>Phone Number :</b>' . $phone . '<br><br><b>Email :<a href="mailto:' . $fromEmail . '" target="_blank">' . $fromEmail . '</a></b><br><br><b>Query: ' . $query . '</b></div>';
+
+        $this->send_support_email($subject, $content);
+
+        return true;
+    }
+
+    function submit_register_user($email, $use_case)
+    {
+        $fromEmail = $email;
+        $subject = "Laravel OAuth free Customer Registration - " . $email;
+
+        $content = '<div >Hello, <br><br><b>Company :</b><a href="' . $_SERVER['SERVER_NAME'] . '" target="_blank" >' . $_SERVER['SERVER_NAME'] . '</a><br><br><b>Email :<a href="mailto:' . $fromEmail . '" target="_blank">' . $fromEmail . '</a></b><br><br><b>Use Case: ' . $use_case . '</b></div>';
+
+        $this->send_support_email($subject, $content);
+
+        return true;
+    }
+
+    function send_support_email($subject, $content){
         $url = 'https://login.xecurify.com/moas/api/notify/send';
         $ch = curl_init($url);
 
@@ -66,11 +90,6 @@ class Customeroauth
         $customerKeyHeader = "Customer-Key: " . $customerKey;
         $timestampHeader = "Timestamp: " . number_format($currentTimeInMillis, 0, '', '');
         $authorizationHeader = "Authorization: " . $hashValue;
-        $fromEmail = $email;
-        $subject = "Laravel oauth Premium Support Query - " . $email;
-
-        $content = '<div >Hello, <br><br><b>Company :</b><a href="' . $_SERVER['SERVER_NAME'] . '" target="_blank" >' . $_SERVER['SERVER_NAME'] . '</a><br><br><b>Phone Number :</b>' . $phone . '<br><br><b>Email :<a href="mailto:' . $fromEmail . '" target="_blank">' . $fromEmail . '</a></b><br><br><b>Query: ' . $query . '</b></div>';
-
         $test_email_id = 'laravelsupport@xecurify.com';
         $support_email_id = 'laravelsupport@xecurify.com';
 
@@ -79,7 +98,6 @@ class Customeroauth
             'sendEmail' => true,
             'email' => array(
                 'customerKey' => $customerKey,
-                'fromEmail' => $fromEmail,
                 'bccEmail' => $test_email_id,
                 'fromName' => 'miniOrange',
                 'toEmail' => $test_email_id,
@@ -156,9 +174,16 @@ class Customeroauth
     {
         $url = DB::get_option('mo_oauth_host_name') . "/moas/rest/customer/key";
         $ch = curl_init($url);
-        $email = CD::get_option("mo_oauth_admin_email");
+        // $email = CD::get_option("mo_oauth_admin_email");
 
-        $password = $_POST['password'];
+        // $password = $_POST['password'];
+        $email = CD::get_option("mo_oauth_admin_email");
+        $password = CD::get_option("mo_oauth_admin_password");
+        
+        if($email === '' || $email === NULL){
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+        }
 
         $fields = array(
             'email' => $email,
@@ -327,7 +352,6 @@ class Customeroauth
         $url          = $host_name . '/moas/api/backupcode/updatestatus';
         $customer_key = CD::get_option('mo_oauth_admin_customer_key');
         $api_key      = CD::get_option('mo_oauth_admin_api_key');
-// dd($code);
         $current_time_in_millis = round( microtime( true ) * 1000 );
         $current_time_in_millis = number_format( $current_time_in_millis, 0, '', '' );
 

@@ -18,5 +18,4 @@ if (isset($_REQUEST['option'])) {
     header('Location: mo_oauth_admin_login.php');
     exit();
 }
-
 ?>

@@ -17,7 +17,6 @@ Route::post('mo_oauth_setup.php', 'MiniOrange\Classes\Actions\MoSetupController@
 Route::get('ssologin.php', 'MiniOrange\Classes\Actions\MoSSOController@launch');
 Route::post('ssologin.php', 'MiniOrange\Classes\Actions\MoSSOController@launch');
 
-
 Route::get('mo_oauth_admin_logout.php', 'MiniOrange\Classes\Actions\MoAdminLogoutController@launch');
 
 Route::get('mo_oauth_how_to_setup.php', 'MiniOrange\Classes\Actions\MoHowToSetupController@launch');

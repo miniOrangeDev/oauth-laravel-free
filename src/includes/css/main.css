@@ -3,8 +3,6 @@
  * Vali Admin
  * Author: Pratik Borsadiya
  * ================================*/
-@import url(https://fonts.googleapis.com/css?family=Lato:300,400,400i,700);
-@import url(https://fonts.googleapis.com/css?family=Niconne);
 
 /*!
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
@@ -13,19 +11,20 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 :root {
-    --blue: #007bff;
+    --blue: #374875;
     --indigo: #6610f2;
     --purple: #6f42c1;
     --pink: #e83e8c;
     --red: #dc3545;
-    --orange: #fd7e14;
+    --orange: #f7934d;
     --yellow: #ffc107;
     --green: #28a745;
     --teal: #20c997;
     --cyan: #17a2b8;
     --white: #FFF;
-    --gray: #6c757d;
-    --gray-dark: #343a40;
+    --gray: #D2D2D2;
+    --gray-medium: #BDBDBD;
+    --gray-dark: #5F6062;
     --primary: #0085ba;
     --secondary: #6c757d;
     --success: #28a745;
@@ -39,10 +38,7 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
-    --font-family-sans-serif: "Lato", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+    --font-family: 'Poppins', sans-serif;
 }
 
 *, *::before, *::after {
@@ -51,7 +47,7 @@
 }
 
 html {
-    font-family: sans-serif;
+    font-family: var(--font-family) !important;
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -71,14 +67,13 @@ section {
 
 body {
     margin: 0;
-    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-family) !important;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #212529;
+    color: var(--gray-dark) !important;
     text-align: left;
-    background-color: #FFF;
+    background-color: var(--white);
 }
 
 [tabindex="-1"]:focus {
@@ -193,8 +188,7 @@ a:not ([href] ):not ([tabindex] ):focus {
 }
 
 pre, code, kbd, samp {
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    "Courier New", monospace;
+    font-family: var(--font-family);
     font-size: 1em;
 }
 
@@ -1821,10 +1815,117 @@ pre code {
     background-color: transparent;
 }
 
+.table tr td button{
+    margin-left: -3rem;
+    border: none;
+    color: none;
+    visibility: hidden;
+}
+
+.table tr td button i{
+    color: var(--gray-dark);
+    position: absolute;
+    z-index: 20;
+    visibility: visible;
+    margin-top: -1.5rem;
+    margin-left: -3rem;
+    font-size: 2rem;
+}
+
+.table tr{
+    font-size: 1.75rem;
+    font-weight: 400;
+}
+
+/* Plugin Settings CSS */
+.table input[type=text]{
+    padding: 10px 15px;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    position: relative;
+    width: 100%;
+    height: 5rem;
+    left: 0%;
+    right: 0%;
+    color: var(--gray-dark);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+}
+
+.table tr td #redirect_uri{
+    background-color: rgba(189, 189, 189, 0.4);
+}
+.table input[type=password]{
+    padding: 10px 15px;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    position: relative;
+    width: 100%;
+    height: 5rem;
+    left: 0%;
+    right: 0%;
+    color: var(--gray-dark);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+}
+.table input[type=checkbox]{
+    padding: 10px 15px;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+    position: relative;
+    left: 0%;
+    right: 0%;
+    color: var(--gray-dark);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+}
+.table input[type=text]:hover{
+    padding: 10px 15px;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    position: relative;
+    width: 100%;
+    height: 5rem;
+    left: 0%;
+    right: 0%;
+    color: var(--gray-dark);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+}
+.table input[type=password]:hover{
+    padding: 10px 15px;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    position: relative;
+    width: 100%;
+    height: 5rem;
+    left: 0%;
+    right: 0%;
+    color: var(--gray-dark);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+}
+.table input[type=checkbox]:hover{
+    padding: 10px 15px;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+    position: relative;
+    left: 0%;
+    right: 0%;
+    color: var(--gray-dark);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+}
+
 .table th, .table td {
     padding: 0.75rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6;
+    border-top: 0px solid #dee2e6 !important;
 }
 
 .table thead th {
@@ -2247,6 +2348,11 @@ select.form-control-lg:not ([size] ):not ([multiple] ), .input-group-lg > select
     margin-bottom: 1rem;
 }
 
+.form-group label {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
 .form-text {
     display: block;
     margin-top: 0.25rem;
@@ -2647,10 +2753,14 @@ select.form-control-lg:not ([size] ):not ([multiple] ), .input-group-lg > select
     -ms-user-select: none;
     user-select: none;
     border: 2px solid transparent;
+    margin-top: 2rem;
     padding: 0.375rem 0.75rem;
+    align-items: center;
     font-size: 0.875rem;
     line-height: 1.5;
-    border-radius: 3px;
+    border-radius: 5px;
+    background-color: var(--blue);
+    color: var(--white);
     -webkit-transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, -webkit-box-shadow 0.3s cubic-bezier(0.35, 0, 0.25, 1),
     -webkit-transform 0.2s cubic-bezier(0.35, 0, 0.25, 1);
     transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, -webkit-box-shadow 0.3s cubic-bezier(0.35, 0, 0.25, 1),
@@ -2663,6 +2773,20 @@ select.form-control-lg:not ([size] ):not ([multiple] ), .input-group-lg > select
     border-color 0.3s ease-in-out, -webkit-box-shadow 0.3s cubic-bezier(0.35, 0, 0.25, 1), -webkit-transform 0.2s cubic-bezier(0.35, 0, 0.25, 1);
 }
 
+.buttons .btn:nth-of-type(1){
+    margin-left: 36%;
+}
+
+/* Button on Plugin Settings */
+#reset{
+    background-color: var(--danger);
+    color: var(--white);
+}
+#reset:hover{
+    background-color: var(--danger);
+    color: var(--gray-medium);
+}
+
 @media screen and (prefers-reduced-motion: reduce) {
     .btn {
         -webkit-transition: none;
@@ -2673,12 +2797,14 @@ select.form-control-lg:not ([size] ):not ([multiple] ), .input-group-lg > select
 
 .btn:hover, .btn:focus {
     text-decoration: none;
+    color: var(--gray);
 }
 
 .btn:focus, .btn.focus {
     outline: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
+    color: var(--gray);
 }
 
 .btn.disabled, .btn:disabled {
@@ -5989,8 +6115,7 @@ button.close {
     z-index: 1070;
     display: block;
     margin: 0;
-    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     line-height: 1.5;
@@ -6103,8 +6228,7 @@ button.close {
     z-index: 1060;
     display: block;
     max-width: 276px;
-    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-family);
     font-style: normal;
     font-weight: 400;
     line-height: 1.5;
@@ -9558,8 +9682,7 @@ position: sticky
 }
 
 .text-monospace {
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    "Courier New", monospace;
+    font-family: var(--font-family);
 }
 
 .text-justify {
@@ -13149,7 +13272,7 @@ keyframes rotate-loading {
     border-radius: 3px;
     background: #292929;
     color: white;
-    font-family: sans-serif, Verdana;
+    font-family: var(--font-family);
     font-size: smaller;
     padding: 3px;
 }
@@ -13260,7 +13383,7 @@ body .fc {
     font-size: 1em;
     text-align: center;
     overflow: hidden;
-    font-family: "Courier New", Courier, monospace;
+    font-family: var(--font-family);
     /* don't allow browser text-selection */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -14220,7 +14343,7 @@ be a descendant of the grid when it is being dragged.
     overflow: hidden;
     line-height: 8px;
     font-size: 11px;
-    font-family: monospace;
+    font-family: var(--font-family);
     text-align: center;
     cursor: s-resize;
 }
@@ -14283,7 +14406,7 @@ be a descendant of the grid when it is being dragged.
     min-height: calc(100vh - 50px);
     margin-top: 50px;
     padding: 30px;
-    background-color: #E5E5E5;
+    background-color: var(--white);
     -webkit-transition: margin-left 0.3s ease;
     -o-transition: margin-left 0.3s ease;
     transition: margin-left 0.3s ease;
@@ -14336,10 +14459,11 @@ be a descendant of the grid when it is being dragged.
     right: 0;
     top: 0;
     width: 100%;
+    height: 7rem;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    background-color: #eae9ee;
+    background-color: var(--white);
     z-index: 1030;
     padding-right: 15px;
     -webkit-box-shadow: 0px 15px 10px -15px #000000;
@@ -14360,12 +14484,14 @@ be a descendant of the grid when it is being dragged.
 }
 
 .app-header__logo {
+    display: flex;
+    justify-content: center;
     -webkit-box-flex: 1;
     -ms-flex: 1 0 auto;
     flex: 1 0 auto;
     text-align: center;
-    font-family: 'Arial';
-    padding: 0 15px;
+    font-family: var(--font-family);
+    padding: 1rem 3rem;
     font-size: 26px;
     font-weight: 400;
     line-height: 50px;
@@ -14387,7 +14513,7 @@ be a descendant of the grid when it is being dragged.
 
 .app-sidebar__toggle {
     padding: 0 15px;
-    font-family: fontAwesome;
+    font-family: var(--font-family);
     color: #fff;
     line-height: 2.4;
     -webkit-transition: background-color 0.3s ease;
@@ -14433,13 +14559,25 @@ be a descendant of the grid when it is being dragged.
 }
 
 .app-nav__item {
-    display: block;
-    padding: 15px;
+    display: flex;
+    justify-content: center;
+    padding: 2.4rem;
     line-height: 20px;
-    color: rgb(131, 127, 127);
+    color: var(--gray-dark);
     -webkit-transition: background-color 0.3s ease;
     -o-transition: background-color 0.3s ease;
     transition: background-color 0.3s ease;
+}
+
+.app-nav__item i{
+    padding-top: -0.8rem;
+    font-size: 2.5rem;
+}
+.app-nav__item span{
+    padding: 0rem 0.5rem;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 1.5rem;
 }
 
 .app-nav__item:hover, .app-nav__item:focus {
@@ -14569,15 +14707,54 @@ be a descendant of the grid when it is being dragged.
     bottom: 0;
     left: 0;
     padding-top: 70px;
-    width: 230px;
+    width: 17%;
     overflow: auto;
     z-index: 10;
-    background-color: #222d32;
+    background-color: var(--blue);
     -webkit-box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
     -webkit-transition: left 0.3s ease, width 0.3s ease;
     -o-transition: left 0.3s ease, width 0.3s ease;
     transition: left 0.3s ease, width 0.3s ease;
+}
+
+/* 1050px Breakpoint */
+@media (max-width: 1050px) {
+    .app-sidebar{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        padding-top: 70px;
+        width: 17%;
+        overflow: auto;
+        z-index: 10;
+        background-color: var(--blue);
+        -webkit-box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 8px 17px rgba(0, 0, 0, 0.2);
+        -webkit-transition: left 0.3s ease, width 0.3s ease;
+        -o-transition: left 0.3s ease, width 0.3s ease;
+        transition: left 0.3s ease, width 0.3s ease;
+    }    
+    
+    .app-sidebar .app-sidebar__user img{
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        /* margin: 0% 35%; */
+    }
+    
+    .app-sidebar .app-sidebar__user-name {
+        white-space: pre-wrap;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        margin-left: -0.5rem;
+        font-size: 1.2rem
+    }
+    .app-sidebar__user-designation {
+        display: none;
+    }
 }
 
 .app-sidebar::-webkit-scrollbar {
@@ -14612,7 +14789,8 @@ be a descendant of the grid when it is being dragged.
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    padding: 10px;
+    padding: 3rem;
+    padding-bottom: 1.5rem;
     margin-bottom: 20px;
     color: #fff;
 }
@@ -14625,7 +14803,13 @@ be a descendant of the grid when it is being dragged.
 }
 
 .app-sidebar__user-name {
-    font-size: 17px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+.app-sidebar__user-designation {
+    font-size: 1.2rem;
+    font-weight: 300;
     line-height: 1.3;
 }
 
@@ -14642,6 +14826,17 @@ be a descendant of the grid when it is being dragged.
     padding-bottom: 40px;
 }
 
+/* 1050px Breakpoint */
+@media (max-width: 1050px) {
+    .app-menu .app-menu__icon{
+        display: none;
+    }
+    .app-menu .app-menu__item{
+        font-size: 1.3rem;
+        font-weight: 200;
+    }
+}
+
 .app-menu__item {
     position: relative;
     display: -webkit-box;
@@ -14650,8 +14845,9 @@ be a descendant of the grid when it is being dragged.
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    padding: 12px 15px;
-    font-size: 1.08em;
+    padding: 2rem;
+    font-size: 1.1em;
+    font-weight: 500;
     border-left: 3px solid transparent;
     -webkit-transition: border-left-color 0.3s ease, background-color 0.3s ease;
     -o-transition: border-left-color 0.3s ease, background-color 0.3s ease;
@@ -14659,11 +14855,16 @@ be a descendant of the grid when it is being dragged.
     color: #fff;
 }
 
+.app-menu__item i{
+    font-size: 2.5rem;
+    margin-right: 1rem;
+}
+
 .app-menu__item.active, .app-menu__item:hover, .app-menu__item:focus {
     background: #fff;
     border-left-color: #0085ba;
     text-decoration: none;
-    color: #000;
+    color: var(--gray-dark);
 }
 
 .app-menu__icon {
@@ -14869,6 +15070,12 @@ be a descendant of the grid when it is being dragged.
     vertical-align: middle;
 }
 
+.btn .icon, .btn .fa-user-check {
+    font-size: 14px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
 .app-title {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -14883,11 +15090,11 @@ be a descendant of the grid when it is being dragged.
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
     flex-direction: row;
-    background-color: #FFF;
+    background-color: var(--white);
     margin: -30px -30px 30px;
-    padding: 20px 30px;
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 5.5rem 0rem 5.5rem;
+    /* -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); */
+    /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); */
 }
 
 @media print {
@@ -14912,8 +15119,9 @@ be a descendant of the grid when it is being dragged.
 
 .app-title h1 {
     margin: 0;
-    font-size: 24px;
-    font-weight: 400;
+    color: var(--blue);
+    font-size: 2.8rem;
+    font-weight: 600;
 }
 
 .app-title p {
@@ -14945,13 +15153,29 @@ be a descendant of the grid when it is being dragged.
     }
 }
 
+/* Licensing Plans Table */
+#upgrade_button{
+    background-color: var(--orange);
+    color: var(--white);
+}
+
+#pricing_container{
+    text-align: center;
+    margin-left: 28%;
+}
+
+#pricing_container h2{
+    text-align: center;
+    margin-left: -8%;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
 .tile {
     position: relative;
     background: #ffffff;
     border-radius: 3px;
-    padding: 20px;
-    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    padding: 1.5rem 2.6rem 0rem 2.6rem;
     margin-bottom: 30px;
     -webkit-transition: all 0.3s ease-in-out;
     -o-transition: all 0.3s ease-in-out;
@@ -15002,9 +15226,11 @@ i {
 }
 
 .tile .tile-title {
+    color: var(--gray-dark);
     margin-top: 0;
     margin-bottom: 20px;
     font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .tile .tile-title-w-btn {
@@ -15044,6 +15270,51 @@ i {
     margin-top: 10px;
 }
 
+.tile .tile-footer .btn{
+    font-weight: 600;
+    margin-top: -0.5rem;
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.tile .tile-footer .row .btn{
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+/* Plugin Settings Form */
+.tile #provider_label {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+.tile #providers {
+    color: var(--gray-dark);
+    padding: 10px 15px;
+    margin: 0rem;
+    font-size: 1.5rem;
+    position: relative;
+    width: 100%;
+    height: 5rem;
+    left: 0%;
+    right: 0%;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+}
+.tile #providers:hover {
+    color: var(--gray-dark);
+    padding: 10px 15px;
+    margin: 0rem;
+    font-size: 1.5rem;
+    position: relative;
+    width: 100%;
+    height: 5rem;
+    left: 0%;
+    right: 0%;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+}
+
 /* Custom Checkbox and Radio Buttons */
 .animated-checkbox input[type="checkbox"] {
     display: none;
@@ -15059,7 +15330,7 @@ i {
 
 .animated-checkbox input[type="checkbox"] + .label-text:before {
     content: "";
-    font-family: "FontAwesome";
+    font-family: var(--font-family);
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -15104,7 +15375,7 @@ i {
 
 .animated-radio-button input[type="radio"] + .label-text:before {
     content: "";
-    font-family: "FontAwesome";
+    font-family: var(--font-family);
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -15236,7 +15507,7 @@ keyframes tick {
 
 .toggle input[type="checkbox"] + .button-indecator:before {
     content: "";
-    font-family: "FontAwesome";
+    font-family: var(--font-family);
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -15391,7 +15662,7 @@ keyframes toggleBtn {
 }
 .material-half-bg {
     height: 100vh;
-    background-color: #222d32;
+    background-color: var(--blue);
     position: fixed;
     top: 0;
     left: 0;
@@ -15401,7 +15672,7 @@ keyframes toggleBtn {
 }
 
 .material-half-bg .cover {
-    background-color: #eae9ee;
+    background-color: var(--white);
     height: 50vh;
 }
 
@@ -15839,9 +16110,13 @@ keyframes bSpinner {
     min-height: 100vh;
 }
 
+.login-content .tile{
+    border: 0.5px solid var(--gray);
+}
+
 .login-content .logo {
     margin-bottom: 40px;
-    font-family: "Arial";
+    font-family: var(--font-family);
     color: #fff;
 }
 
@@ -15958,7 +16233,7 @@ keyframes bSpinner {
 }
 
 .lockscreen-content .logo {
-    font-family: "Niconne";
+    font-family: var(--font-family);
     margin-bottom: 40px;
     color: #fff;
 }

@@ -10,6 +10,13 @@
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Font Awesome Kit -->
+    <script src="https://kit.fontawesome.com/0533c22dcd.js" crossorigin="anonymous"></script>
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
     <title>Register - miniOrange Admin</title>
 </head>
 <body>
@@ -25,14 +32,11 @@
     <div class="col-md-6">
         <div class="tile">
             <h3 class="tile-title"
-                title="This will restrict unauthorized entity from accessing the Connector">Create
-                a local account</h3>
+                title="This will restrict unauthorized entity from accessing the Connector">Create account with miniOrange</h3>
             <form class="register_form" id="register_form" method="POST"
                   action="mo_oauth_register.php">
-                  @csrf
                 <input type="hidden" name="option" value="register">
                 <div class="tile-body">
-
                     <div class="form-group row">
                         <label class="control-label col-md-3">Email</label>
                         <div class="col-md-8">
@@ -44,16 +48,26 @@
                         <label class="control-label col-md-3">Password</label>
                         <div class="col-md-8">
                             <input class="form-control col-md-10" type="password"
-                                   id="password" name="password" placeholder="Enter a password"
-                                   minlength="6" required>
+                                   id="password" name="password" placeholder="Enter a password (Min. length 8)"
+                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" 
+                                   title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
+                                   required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="control-label col-md-3">Confirm Password</label>
                         <div class="col-md-8">
                             <input class="form-control col-md-10" type="password"
-                                   id="confirm_password" placeholder="Re-type the password"
-                                   minlength="6" required>
+                                   id="confirm_password" name="confirm_password" placeholder="Re-type the password"
+                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" 
+                                   title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">Use case <span style="color: grey">(Optional)</span></label>
+                        <div class="col-md-8">
+                            <textarea class="form-control col-md-10" id="use_case" name="use_case" rows="4" cols="50" placeholder="Enter your use case here..."></textarea>
                         </div>
                     </div>
                     <script>
@@ -67,7 +81,6 @@
                                 confirm_password.setCustomValidity('');
                             }
                         }
-
                         password.onchange = validatePassword;
                         confirm_password.onkeyup = validatePassword;
                     </script>
@@ -75,17 +88,24 @@
                 </div>
                 <div class="tile-footer">
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-3">
-                            <button class="btn btn-primary" type="submit" id="register">
-                                <i class="fa fa-fw fa-lg fa-check-circle"></i>Register
+                        <div class="col-md-10 col-md-offset-3">
+                            <button class="btn btn-primary" type="submit" name="submit" id="register"  style="margin-left: 32%;">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i>Register
+                            </button>
+                            <button class="btn btn-primary" type="button" name="goto_login" id="goto_login">
+                                <i class="fa-solid fa-user-check" aria-hidden="true"></i>Already have an account?
                             </button>
                         </div>
                     </div>
                 </div>
+                <script>
+                    document.getElementById("goto_login").onclick = function(){
+                        window.location.href = "mo_oauth_admin_login.php";
+                    }
+                </script>
             </form>
         </div>
     </div>
-
 </section>
 <!-- Essential javascripts for application to work-->
 <script src="miniorange/sso/includes/js/jquery-3.2.1.min.js"></script>
