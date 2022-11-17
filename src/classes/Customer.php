@@ -64,6 +64,18 @@ class Customeroauth
         return true;
     }
 
+    function submit_trial_request($email, $query)
+    {
+        $fromEmail = $email;
+        $subject = "Laravel OAuth Trial/Demo Request - " . $email;
+
+        $content = '<div >Hello, <br><br><b>Company :</b><a href="' . $_SERVER['SERVER_NAME'] . '" target="_blank" >' . $_SERVER['SERVER_NAME'] . '</a><br><br><b>Email :<a href="mailto:' . $fromEmail . '" target="_blank">' . $fromEmail . '</a></b><br><br><b>Query: ' . $query . '</b></div>';
+
+        $this->send_support_email($subject, $content);
+
+        return true;
+    }
+
     function submit_register_user($email, $use_case)
     {
         $fromEmail = $email;

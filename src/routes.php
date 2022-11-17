@@ -25,4 +25,7 @@ Route::post('mo_oauth_how_to_setup.php', 'MiniOrange\Classes\Actions\MoHowToSetu
 Route::get('mo_oauth_support.php', 'MiniOrange\Classes\Actions\MoSupportController@launch');
 Route::post('mo_oauth_support.php', 'MiniOrange\Classes\Actions\MoSupportController@launch');
 
+Route::get('mo_oauth_trial.php', 'MiniOrange\Classes\Actions\MoTrialsController@launch');
+Route::post('mo_oauth_trial.php', 'MiniOrange\Classes\Actions\MoTrialsController@launch');
+
 Route::get('mo_oauth_create_tables', 'MiniOrange\Classes\Actions\DatabaseController@createTables');

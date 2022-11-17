@@ -10,10 +10,12 @@ class MoLaravelOAuthPreMigrateFileDelUp extends Migration
      * @return void
      */
     public function up()
-    {
-        $src = dirname(__DIR__) .'/includes/js/main.js';
-        $dst = public_path() . "/miniorange/sso/includes/js/main.js";
-        copy($src, $dst);
+    {   
+        if(isset($_SERVER['HTTP_HOST'])){
+            $src = dirname(__DIR__) .'/includes/js/main.js';
+            $dst = public_path() . "/miniorange/sso/includes/js/main.js";
+            copy($src, $dst);
+        }
     }
 
     /**

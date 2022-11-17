@@ -62,6 +62,8 @@
                         class="app-menu__label"><b>Account Setup</b></span></a></li>
         <li><a class="app-menu__item" href="mo_oauth_support.php"><i class="app-menu__icon fa-solid fa-headset"></i></i></i><span
                         class="app-menu__label"><b>Support</b></span></a></li>
+        <li><a class="app-menu__item" href="mo_oauth_trial.php"><i class="app-menu__icon fa-solid fa-desktop"></i></i></i><span
+                        class="app-menu__label"><b>Trial/Demo Request</b></span></a></li>
     </ul>
 </aside>
 <script>
