@@ -1,6 +1,6 @@
 <?php
 
-use MiniOrange\Helper\DB;
+use MiniOrange\Helper\OauthDB as DB;
 
 if (!isset($_SESSION)) {
     session_start();

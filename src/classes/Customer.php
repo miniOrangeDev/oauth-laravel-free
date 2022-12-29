@@ -1,8 +1,8 @@
 <?php
 
 use MiniOrange\Helper\CustomerDetails as CD;
-use MiniOrange\Helper\DB as DB;
-use MiniOrange\Helper\Lib\AESEncryption;
+use MiniOrange\Helper\OauthDB as DB;
+use MiniOrange\Helper\Lib\OauthAESEncryption;
 
 class Customeroauth
 {
@@ -355,7 +355,7 @@ class Customeroauth
         // global $mc_util;
         $code = CD::get_option('sml_lk');
         $key = CD::get_option('mo_oauth_customer_token');
-        $code = AESEncryption::decrypt_data($code,$key);
+        $code = OauthAESEncryption::decrypt_data($code,$key);
         
         if ( !CD::get_option('mo_oauth_registration_status') || false === $code || empty( $code ) ) {
             return;

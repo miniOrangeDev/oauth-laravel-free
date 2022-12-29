@@ -1,4 +1,4 @@
-<?php use MiniOrange\Helper\DB as DB;?>
+<?php use MiniOrange\Helper\OauthDB as DB;?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css"
-          href="miniorange/sso/includes/css/main.css">
+          href="miniorange/sso_oauth_free/includes/css/moOauthMain.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -27,7 +27,7 @@
 <!-- Navbar-->
 <header class="app-header">
     <a class="app-header__logo" href="#" style="margin-top: 10px;"><img
-                src="miniorange/sso/resources/images/logo-home.png"></a>
+                src="miniorange/sso_oauth_free/resources/images/logo-home.png"></a>
     <!-- Sidebar toggle button<a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a> -->
     <ul class="app-nav">
         <li class="dropdown"><a class="app-nav__item" href="#"
@@ -46,7 +46,7 @@
 
 <aside class="app-sidebar">
     <div class="app-sidebar__user">
-        <img src="miniorange/sso/resources/images/miniorange.png"
+        <img src="miniorange/sso_oauth_free/resources/images/miniorange.png"
              style="width: 37.25px; height: 50px;" alt="User Image">
         <div style="margin-left: 15px;">
             <p class="app-sidebar__user-name">Laravel OAuth SSO</p>

@@ -1,8 +1,8 @@
 <?php
 
-use MiniOrange\Helper\DB;
+use MiniOrange\Helper\OauthDB as DB;
 use MiniOrange\Helper\CustomerDetails as CD;
-use MiniOrange\Helper\Lib\AESEncryption;
+use MiniOrange\Helper\Lib\OauthAESEncryption;
 
 if (!isset($_SESSION)) {
     session_start();
@@ -53,7 +53,7 @@ if (isset($_POST['option']) and $_POST['option'] == "mo_oauth_verify_customer") 
         mo_oauth_show_error_message();
 
         return;
-    } else if (checkPasswordpattern(strip_tags($_POST['password']))) {
+    } else if (moOauthcheckPasswordpattern(strip_tags($_POST['password']))) {
         DB::update_option('mo_oauth_message', 'Minimum 6 characters should be present. Maximum 15 characters should be present. Only following symbols (!@#.$%^&*-_) should be present.');
         mo_oauth_show_error_message();
         return;
@@ -96,12 +96,12 @@ if (isset($_POST['option']) && $_POST['option'] == 'mo_oauth_verify_license') {
         CD::update_option('vl_check_t', time());
         if (strcasecmp($content['status'], 'SUCCESS') == 0) {
             $key = CD::get_option('mo_oauth_customer_token');
-            CD::update_option('sml_lk', AESEncryption::encrypt_data($code, $key));
+            CD::update_option('sml_lk', OauthAESEncryption::encrypt_data($code, $key));
             DB::update_option('mo_oauth_message', 'Your license is verified. You can now configure the connector.');
             CD::update_option('mo_oauth_registration_status','verified');
             $key = CD::get_option('mo_oauth_customer_token');
-            CD::update_option('site_ck_l', AESEncryption::encrypt_data("true", $key));
-            CD::update_option('t_site_status', AESEncryption::encrypt_data("false", $key));
+            CD::update_option('site_ck_l', OauthAESEncryption::encrypt_data("true", $key));
+            CD::update_option('t_site_status', OauthAESEncryption::encrypt_data("false", $key));
             //echo "string";exit;
             mo_oauth_show_success_message();
         } else if (strcasecmp($content['status'], 'FAILED') == 0) {
@@ -117,7 +117,7 @@ if (isset($_POST['option']) && $_POST['option'] == 'mo_oauth_verify_license') {
         }
     } else {
         $key = CD::get_option('mo_oauth_customer_token');
-        CD::update_option('site_ck_l', AESEncryption::encrypt_data("false", $key));
+        CD::update_option('site_ck_l', OauthAESEncryption::encrypt_data("false", $key));
         DB::update_option('mo_oauth_message', 'You have not upgraded yet. ');
         mo_oauth_show_error_message();
     }

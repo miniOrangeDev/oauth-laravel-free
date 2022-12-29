@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css"
-          href="miniorange/sso/includes/css/main.css">
+          href="miniorange/sso_oauth_free/includes/css/moOauthMain.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -26,7 +26,7 @@
 <section class="login-content">
     <div class="logo">
         <h1>
-            <img src="miniorange/sso/resources/images/logo_large.png">
+            <img src="miniorange/sso_oauth_free/resources/images/logo_large.png">
         </h1>
     </div>
     <div class="col-md-6">
@@ -108,16 +108,16 @@
     </div>
 </section>
 <!-- Essential javascripts for application to work-->
-<script src="miniorange/sso/includes/js/jquery-3.2.1.min.js"></script>
-<script src="miniorange/sso/includes/js/popper.min.js"></script>
-<script src="miniorange/sso/includes/js/bootstrap.min.js"></script>
-<script src="miniorange/sso/includes/js/main.js"></script>
+<script src="miniorange/sso_oauth_free/includes/js/jquery-3.2.1.min.js"></script>
+<script src="miniorange/sso_oauth_free/includes/js/popper.min.js"></script>
+<script src="miniorange/sso_oauth_free/includes/js/bootstrap.min.js"></script>
+<script src="miniorange/sso_oauth_free/includes/js/main.js"></script>
 <!-- The javascript plugin to display page loading on top-->
-<script src="miniorange/sso/includes/js/plugins/pace.min.js"></script>
+<script src="miniorange/sso_oauth_free/includes/js/plugins/pace.min.js"></script>
 </body>
 </html>
 <?php
-use MiniOrange\Helper\DB as setupDB;
+use MiniOrange\Helper\OauthDB as setupDB;
 if (isset($_SESSION['show_success_msg'])) {
 
     echo '<script>

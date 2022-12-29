@@ -10,7 +10,7 @@
  */
 namespace MiniOrange\Helper\Lib;
 
-class AESEncryption
+class OauthAESEncryption
 {
     /**
      * @param string $data - the key=value pairs separated with &

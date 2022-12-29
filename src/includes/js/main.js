@@ -13,7 +13,7 @@ jQuery(document).ready(function () {
 
     $("#download_sp_cert").click(function (e) {
         e.preventDefault();
-        window.location.href = 'miniorange/sso/resources/sp-certificate.crt';
+        window.location.href = 'miniorange/sso_oauth_free/resources/sp-certificate.crt';
     });
 
     jQuery("#logout_url_help").click(function () {

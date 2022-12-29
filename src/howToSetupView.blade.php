@@ -1,4 +1,4 @@
-<?php use MiniOrange\Helper\DB;?>
+<?php use MiniOrange\Helper\OauthDB;?>
 <?php echo View::make('mooauth::menuView'); 
 ?><main class="app-content">
     <div class="app-title">
@@ -22,7 +22,7 @@
                             </li>
                     
                         </ul>
-                        <img src="miniorange/sso/resources/images/Step_1.png"
+                        <img src="miniorange/sso_oauth_free/resources/images/Step_1.png"
                              style="width: 800px; height: 380px; margin-left: 50px; border: 1px solid;">
                         <br/> <br/>
                         <h4>Step 2:</h4>
@@ -33,7 +33,7 @@
                             <b>Realm</b>, <b>Domain</b>, <b>Tenant</b>, (as per your OAuth Provider or use the default ones provided already) </li>
                             <li>You can send the client credentials in header or body and also send state parameter accordingly.</li>
                         </ul>
-                        <img src="miniorange/sso/resources/images/Step_2.png"
+                        <img src="miniorange/sso_oauth_free/resources/images/Step_2.png"
                              style="width: 800px; height: 380px; margin-left: 50px; border: 1px solid;"><br/><br/>
                         <ul>
                             <li>Click on the <b>Save</b> button to save your configuration.</li>
@@ -45,7 +45,7 @@
                                 clicking on the <b>Test Configuration</b> button.
                             </li>
                         </ul>
-                        <img src="miniorange/sso/resources/images/Step_3.png"
+                        <img src="miniorange/sso_oauth_free/resources/images/Step_3.png"
                              style="width: 800px; height: 380px; margin-left: 50px; border: 1px solid;">
                         <ul>
                             <br/>
@@ -53,7 +53,7 @@
                                 Successful screen with the user's attribute values.
                             </li>
                         </ul>
-                        <img src="miniorange/sso/resources/images/Step_4.png"
+                        <img src="miniorange/sso_oauth_free/resources/images/Step_4.png"
                              style="width: 600px; height: 600px; margin-left: 50px; border: 1px solid;">
                         <br/><br/>
                         <h4>Step 4:</h4>
@@ -79,7 +79,7 @@
 </body>
 </html>
 <?php
-use MiniOrange\Helper\DB as setupDB;
+use MiniOrange\Helper\OauthDB as setupDB;
 if (isset($_SESSION['show_success_msg'])) {
 
     echo '<script>

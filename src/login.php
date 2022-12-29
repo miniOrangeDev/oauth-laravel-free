@@ -5,7 +5,7 @@ namespace MiniOrange;
 use MiniOrange\Classes\Actions\SendAuthnRequest;
 use MiniOrange\Helper\Utilities;
 
-final class Login
+final class OauthLogin
 {
 
     public function __construct()
@@ -18,4 +18,4 @@ final class Login
     }
 }
 
-new Login();
+new OauthLogin();

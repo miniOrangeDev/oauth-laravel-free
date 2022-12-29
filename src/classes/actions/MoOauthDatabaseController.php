@@ -6,7 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
-class DatabaseController extends Controller
+class MoOauthDatabaseController extends Controller
 {
 
     public function createTables()

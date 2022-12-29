@@ -9,7 +9,7 @@ namespace MiniOrange\Helper;
  * values needed to be inputed in the string. Key is usually of the form
  * {{key}}
  */
-class Messages
+class OauthMessages
 {
     //General Flow Messages
     const ERROR_OCCURRED = 'An error occured while processing your request. Please try again.';

@@ -2,7 +2,7 @@
 
 namespace MiniOrange\Helper;
 
-class Constants
+class OauthConstants
 {
     //images
     const IMAGE_RIGHT = 'right.png';

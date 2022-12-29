@@ -9,7 +9,7 @@
 
     <p id="oauth_message"></p>
     <?php
-    use MiniOrange\Helper\DB;
+    use MiniOrange\Helper\OauthDB;
     ?>
     <div class="row">
         <div class="col-md-12">
@@ -107,7 +107,7 @@
 </body>
 </html>
 <?php
-use MiniOrange\Helper\DB as setupDB;
+use MiniOrange\Helper\OauthDB as setupDB;
 
 if (isset($_SESSION['show_success_msg'])) {
 

@@ -1,4 +1,4 @@
-<?php use MiniOrange\Helper\DB;
+<?php use MiniOrange\Helper\OauthDB;
 use MiniOrange\Helper\CustomerDetails as CD;?>
 <?php echo View::make('mooauth::menuView'); 
 ?><main class="app-content">
@@ -61,7 +61,7 @@ use MiniOrange\Helper\CustomerDetails as CD;?>
     }
 </script>
 <?php
-use MiniOrange\Helper\DB as setupDB;
+use MiniOrange\Helper\OauthDB as setupDB;
 if (isset($_SESSION['show_success_msg'])) {
 
     echo '<script>

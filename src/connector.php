@@ -1,11 +1,11 @@
 <?php
 
-use MiniOrange\Helper\DB;
+use MiniOrange\Helper\OauthDB as DB;
 use MiniOrange\Helper\CustomerDetails as CD;
-use MiniOrange\Helper\Lib\AESEncryption;
+use MiniOrange\Helper\Lib\OauthAESEncryption;
 use Illuminate\Support\Facades\Schema;
-use MiniOrange\Helper\Constants;
-use MiniOrange\Classes\Actions\DatabaseController as DBinstaller;
+use MiniOrange\Helper\OauthConstants;
+use MiniOrange\Classes\Actions\MoOauthDatabaseController as DBinstaller;
 
 if (!defined('MSSP_VERSION'))
     define('MSSP_VERSION', '1.0.0');
@@ -17,7 +17,7 @@ if (!defined('MSSP_TEST_MODE'))
     define('MSSP_TEST_MODE', FALSE);
 
 // recursive function to copy files within directory
-function recurse_copy($src, $dst)
+function mo_oauth_recurse_copy($src, $dst)
 {
     $dir = opendir($src);
 
@@ -25,7 +25,7 @@ function recurse_copy($src, $dst)
     while (false !== ($file = readdir($dir))) {
         if (($file != '.') && ($file != '..')) {
             if (is_dir($src . '/' . $file)) {
-                recurse_copy($src . '/' . $file, $dst . '/' . $file);
+                mo_oauth_recurse_copy($src . '/' . $file, $dst . '/' . $file);
             } else {
                 if('sp-key.key' !== $file && 'miniorange_sp_priv_key.key' !== $file)
                     copy($src . '/' . $file, $dst . '/' . $file);
@@ -35,7 +35,7 @@ function recurse_copy($src, $dst)
     closedir($dir);
 }
 
-function mo_register_action()
+function mo_oauth_register_action()
 {
     $email = $_POST['email'];
     $password = stripslashes($_POST['password']);
@@ -48,7 +48,7 @@ function mo_register_action()
         CD::update_option('mo_oauth_admin_password', $password);
         $customer = new Customeroauth();
         $content = json_decode($customer->check_customer(), true);
-        $response = create_customer();
+        $response = mo_oauth_create_customer();
         if (strcasecmp($response['status'], 'success') == 0) {
                 $customer->submit_register_user($email, $use_case);
                 CD::update_option('mo_oauth_message', 'Registration Successful');
@@ -64,14 +64,14 @@ function mo_register_action()
     }
 }
 
-function create_customer()
+function mo_oauth_create_customer()
 {
     $customer = new Customeroauth();
     $customerKey = json_decode($customer->create_customer(), true);
     $response = array();
 
     if (strcasecmp($customerKey['status'], 'CUSTOMER_USERNAME_ALREADY_EXISTS') == 0) {
-        $api_response = get_current_customer();
+        $api_response = mo_oauth_get_current_customer();
         if ($api_response) {
             $response['status'] = "success";
         } else
@@ -97,7 +97,7 @@ function create_customer()
     return $response;
 }
 
-function get_current_customer()
+function mo_oauth_get_current_customer()
 {
     $customer = new Customeroauth();
     $content = $customer->get_customer_key();
@@ -202,7 +202,7 @@ function mo_oauth_remove_account()
     CD::delete_option('mo_oauth_registration_status');
 }
 
-function checkPasswordpattern($password)
+function moOauthcheckPasswordpattern($password)
 {
     $pattern = '/^[(\w)*(\!\@\#\$\%\^\&\*\.\-\_)*]+$/';
 
@@ -228,7 +228,7 @@ function check_license()
 {
     $code = DB::get_option('sml_lk');
     if ($code) {
-        $code = AESEncryption::decrypt_data($code, $key);
+        $code = OauthAESEncryption::decrypt_data($code, $key);
         $customer = new Customeroauth();
         $content = json_decode($customer->mo_oauth_vl($code, true), true);
         if (strcasecmp($content['status'], 'SUCCESS') == 0) {
@@ -244,7 +244,7 @@ function site_check()
     $status = false;
     $key = DB::get_option('mo_oauth_customer_token');
     if (DB::get_option("site_ck_l")) {
-        if (AESEncryption::decrypt_data(DB::get_option('site_ck_l'), $key) == "true")
+        if (OauthAESEncryption::decrypt_data(DB::get_option('site_ck_l'), $key) == "true")
             $status = true;
     }
     if ($status && !mo_oauth_lk_multi_host()) {
@@ -256,13 +256,13 @@ function site_check()
         }
         $code = DB::get_option('sml_lk');
         if ($code) {
-            $code = AESEncryption::decrypt_data($code, $key);
+            $code = OauthAESEncryption::decrypt_data($code, $key);
             $customer = new Customeroauth();
             $content = json_decode($customer->mo_oauth_vl($code, true), true);
             if (strcasecmp($content['status'], 'SUCCESS') == 0) {
                 DB::delete_option('vl_check_s');
             } else {
-                DB::update_option('vl_check_s', AESEncryption::encrypt_data("false", $key));
+                DB::update_option('vl_check_s', OauthAESEncryption::encrypt_data("false", $key));
             }
         }
         DB::update_option('vl_check_t', time());
@@ -275,19 +275,19 @@ function mo_oauth_lk_multi_host()
     $vl_check_s = DB::get_option('vl_check_s');
     $key = DB::get_option('mo_oauth_customer_token');
     if ($vl_check_s) {
-        $vl_check_s = AESEncryption::decrypt_data($vl_check_s, $key);
+        $vl_check_s = OauthAESEncryption::decrypt_data($vl_check_s, $key);
         if ($vl_check_s == "false")
             return true;
     }
     return false;
 }
 
-function is_user_registered()
+function mo_oauth_is_user_registered()
 {
     return DB::get_registered_user();
 }
 
-function sanitize_certificate($certificate)
+function mo_oauth_sanitize_certificate($certificate)
 {
     $certificate = trim($certificate);
     $certificate = preg_replace("/[\r\n]+/", "", $certificate);

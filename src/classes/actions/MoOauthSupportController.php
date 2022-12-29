@@ -4,10 +4,10 @@ namespace MiniOrange\Classes\Actions;
 
 use Illuminate\Routing\Controller;
 
-class MoTrialsController extends Controller {
+class MoOauthSupportController extends Controller {
     public function launch() {
-        include_once dirname(__DIR__, 2).DIRECTORY_SEPARATOR.'mo_oauth_trial.php';
+        include_once dirname(__DIR__, 2).DIRECTORY_SEPARATOR.'mo_oauth_support.php';
         include_once dirname(__DIR__, 2).DIRECTORY_SEPARATOR.'jsLoader.php';
-        return view('mooauth::trialView');
+        return view('mooauth::supportView');
     }
 }

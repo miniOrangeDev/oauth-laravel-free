@@ -1,6 +1,6 @@
 <?php
 
-use MiniOrange\Helper\DB;
+use MiniOrange\Helper\OauthDB as DB;
 use MiniOrange\Helper\CustomerDetails as CD;
 
 if (!isset($_SESSION)) {

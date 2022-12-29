@@ -3,7 +3,7 @@ namespace MiniOrange\Helper;
 
 use Illuminate\Database\Capsule\Manager as ConDB;
 use Illuminate\Support\Facades\DB as LaraDB;
-use MiniOrange\Classes\Actions\DatabaseController as DC;
+use MiniOrange\Classes\Actions\MoOauthDatabaseController as DC;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Console\Kernel as Kernel;
 use Illuminate\Support\Facades\Artisan;
@@ -16,7 +16,7 @@ use PDOException;
 use phpDocumentor\Reflection\Types\Null_;
 use Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper as TDB;
  
-class DB extends Controller
+class OauthDB extends Controller
 {
     // private static $domain_name;
     // // define('DOMAIN_NAME', $domain_name);
