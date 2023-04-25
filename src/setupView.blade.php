@@ -35,7 +35,7 @@ $app = DB::get_option('mo_oauth_provider_config');
                                 <input type="hidden" name="discovery" value="">
                                 @csrf
                                 <table id="moOAuthTable" class="table">
-                                    <tr><td>Display App Name<br><input type="text" name="displayappname" id="displayappname"></td></tr>
+                                    <tr><td>Display App Name<br><input type="text" name="displayappname" id="displayappname" value="<?php echo DB::get_option('oauth_provider_name') ?>"></td></tr>
                                     <tr><td>Redirect / Callback URL<br><input id="redirect_uri" type="text" name="redirecturi" value="<?php echo CD::oauth_get_current_domain().'/ssologin.php'; ?>" readonly disabled><button type="button" onclick="moOauthLaravelCopy()"><i class="fa-regular fa-copy"></i></button></td></tr>
                                     <tr><td>Client ID<br><input id="client_id" type="text" name="clientid" value="<?php echo DB::get_option('client_id') ?>"></td></tr>
                                     <tr><td>Client Secret<br><input id="client_secret" type="password" name="clientsecret" value="<?php echo DB::get_option('client_secret') ?>"><button type="button" onclick="moOauthLaravelShow()"><i id="client_secret_icon" class="fa-solid fa-eye-slash"></i></button></td></tr>
@@ -131,13 +131,13 @@ $app = DB::get_option('mo_oauth_provider_config');
             } 
         }
         console.log(selected_app);
-        jQuery('input[name=displayappname]').val(app);
         jQuery('input[name=provider]').val(app);
         jQuery('input[name=apptype]').val(selected_app["type"]); 
         jQuery('input[name=discovery]').val(selected_app["discovery"]);
 
         var client_id = "<?php echo DB::get_option('client_id') ?>";
         if(client_id == "NULL" || client_id == ""){
+            jQuery('input[name=displayappname]').val(app);
             if(undefined != selected_app["input"]){
                 for(i in selected_app["input"]){
                     console.log(i);
