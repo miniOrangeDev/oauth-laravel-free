@@ -1,6 +1,6 @@
 {
   "name": "miniorange/oauth-laravel-free",
-  "description": "oauth Package for Laravel webapps.",
+  "description": "Laravel OAuth Single Sign On Solution. Make yourLaravel application as OAuth Client using this plugin. Laravel end users can login into Laravel application using their OAuth Provider / Server credentials.",
   "license": "BSD-3-Clause",
   "authors": [
     {
