@@ -12,7 +12,12 @@ class Customeroauth
     function create_customer()
     {
 
-        $url = DB::get_option('mo_oauth_host_name') . '/moas/rest/customer/add';
+        $url = DB::get_option('mo_oauth_host_name');
+        if (substr($url, -1) !== '/') {
+            $url .= '/';
+        }
+
+        $url .= 'moas/rest/customer/add';
 
         $ch = curl_init($url);
         $this->email = CD::get_option('mo_oauth_admin_email');
@@ -89,7 +94,12 @@ class Customeroauth
     }
 
     function send_support_email($subject, $content){
-        $url = 'https://login.xecurify.com/moas/api/notify/send';
+        $url = DB::get_option('mo_oauth_host_name');
+        if (substr($url, -1) !== '/') {
+            $url .= '/';
+        }
+
+        $url .= 'moas/api/notify/send';
         $ch = curl_init($url);
 
         $customerKey = "16555";
@@ -146,7 +156,12 @@ class Customeroauth
 
     function check_customer()
     {
-        $url = DB::get_option('mo_oauth_host_name') . "/moas/rest/customer/check-if-exists";
+        $url = DB::get_option('mo_oauth_host_name');
+        if (substr($url, -1) !== '/') {
+            $url .= '/';
+        }
+
+        $url .= "moas/rest/customer/check-if-exists";
         $ch = curl_init($url);
         $email = CD::get_option("mo_oauth_admin_email");
 
@@ -184,7 +199,12 @@ class Customeroauth
 
     function get_customer_key()
     {
-        $url = DB::get_option('mo_oauth_host_name') . "/moas/rest/customer/key";
+        $url = DB::get_option('mo_oauth_host_name');
+        if (substr($url, -1) !== '/') {
+            $url .= '/';
+        }
+
+        $url .= "moas/rest/customer/key";
         $ch = curl_init($url);
         // $email = CD::get_option("mo_oauth_admin_email");
 
@@ -225,10 +245,22 @@ class Customeroauth
     function mo_oauth_vl($code, $active)
     {
         $url = "";
-        if ($active)
-            $url = DB::get_option('mo_oauth_host_name') . '/moas/api/backupcode/check';
-        else
-            $url = DB::get_option('mo_oauth_host_name') . '/moas/api/backupcode/verify';
+        if ($active){
+            $url = DB::get_option('mo_oauth_host_name');
+            if (substr($url, -1) !== '/') {
+                $url .= '/';
+            }
+
+            $url .= 'moas/api/backupcode/check';
+        }
+        else {
+            $url = DB::get_option('mo_oauth_host_name');
+            if (substr($url, -1) !== '/') {
+                $url .= '/';
+            }
+
+            $url .= 'moas/api/backupcode/verify';
+        }
 
         $ch = curl_init($url);
 
@@ -298,7 +330,12 @@ class Customeroauth
     function check_customer_ln()
     {
 
-        $url = DB::get_option('mo_oauth_host_name') . '/moas/rest/customer/license';
+        $url = DB::get_option('mo_oauth_host_name');
+        if (substr($url, -1) !== '/') {
+            $url .= '/';
+        }
+
+        $url .= 'moas/rest/customer/license';
         $ch = curl_init($url);
         $customerKey = CD::get_option('mo_oauth_admin_customer_key');
 
@@ -360,8 +397,13 @@ class Customeroauth
         if ( !CD::get_option('mo_oauth_registration_status') || false === $code || empty( $code ) ) {
             return;
         }
-        $host_name    = DB::get_option('mo_oauth_host_name');
-        $url          = $host_name . '/moas/api/backupcode/updatestatus';
+
+        $url = DB::get_option('mo_oauth_host_name');
+        if (substr($url, -1) !== '/') {
+            $url .= '/';
+        }
+
+        $url .= 'moas/api/backupcode/updatestatus';
         $customer_key = CD::get_option('mo_oauth_admin_customer_key');
         $api_key      = CD::get_option('mo_oauth_admin_api_key');
         $current_time_in_millis = round( microtime( true ) * 1000 );
